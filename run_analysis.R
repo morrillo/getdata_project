@@ -10,6 +10,7 @@ colnames(activity_labels) <- c('activity_code','activity_name')
 # load training data
 setwd('train')
 x_train <- read.table('X_train.txt',header=FALSE,strip.white=TRUE)
+colnames(x_train) <- features$feature_name
 subject_train <- read.csv('subject_train.txt',header=FALSE,sep = ' ')
 # Uses descriptive activity names to name the activities in the data set
 y_train <- read.csv('y_train.txt',header=FALSE,sep=' ')
@@ -23,6 +24,7 @@ setwd('../')
 # load training data
 setwd('test')
 x_test <- read.table('X_test.txt',header=FALSE,strip.white=TRUE)
+colnames(x_test) <- features$feature_name
 subject_test <- read.csv('subject_test.txt',header=FALSE,sep = ' ')
 # Uses descriptive activity names to name the activities in the data set
 y_test <- read.csv('y_test.txt',header=FALSE,sep=' ')
