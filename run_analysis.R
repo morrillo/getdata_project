@@ -38,17 +38,19 @@ setwd('../')
 
 # Merges the training and the test sets to create one data set.
 merged_data <- rbind(train_data,test_data)
-
+merged_data$V1 <- NULL
+merged_data$activity_name <- NULL
 # Extracts only the measurements on the mean and standard deviation for each measurement. 
  
-data_means <- aggregate(merged_data,by=list(merged_data$activity_code,merged_data$activity_name),FUN=mean)
-data_sd <- aggregate(merged_data,by=list(merged_data$activity_code,merged_data$activity_name),FUN=sd)
+data_means <- aggregate(merged_data,by=list(merged_data$activity_code),FUN=mean)
+data_sd <- aggregate(merged_data,by=merged_data['activity_code'],FUN=sd)
 
 # pivots merged data
-mdata_means <- melt(data_means,id=c('activity_code','activity_name'))
-mdata_sd <- melt(data_sd,id=c('activity_code','activity_name'))
+mdata_means <- melt(data_means,id=c('activity_code'))
+mdata_sd <- melt(data_sd,id=c('activity_code'))
 
-colnames(mdata_means) <- c('activity_code','activity_name','variable','value_avg')
-colnames(mdata_sd) <- c('activity_code','activity_name','variable','value_sd')
+colnames(mdata_means) <- c('activity_code','variable','value_avg')
+colnames(mdata_sd) <- c('activity_code','variable','value_sd')
 
-mdata_merge <- merge(mdata_means,mdata_sd,by=c('activity_code','activity_name','variable'))
+mdata_merge <- merge(mdata_means,mdata_sd,by=c('activity_code','variable'))
+mdata_activity <- merge(mdata_merge,activity_labels,by='activity_code')
