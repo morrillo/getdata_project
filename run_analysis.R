@@ -1,4 +1,5 @@
-
+# Loads library reshape
+library(reshape)
 # Loads features vector
 setwd('data')
 
@@ -40,5 +41,14 @@ merged_data <- rbind(train_data,test_data)
 
 # Extracts only the measurements on the mean and standard deviation for each measurement. 
  
-data_means <- apply(merged_data,2,mean)
-data_sd <- apply(merged_data,2,sd)
+data_means <- aggregate(merged_data,by=list(merged_data$activity_code,merged_data$activity_name),FUN=mean)
+data_sd <- aggregate(merged_data,by=list(merged_data$activity_code,merged_data$activity_name),FUN=sd)
+
+# pivots merged data
+mdata_means <- melt(data_means,id=c('activity_code','activity_name'))
+mdata_sd <- melt(data_sd,id=c('activity_code','activity_name'))
+
+colnames(mdata_means) <- c('activity_code','activity_name','variable','value_avg')
+colnames(mdata_sd) <- c('activity_code','activity_name','variable','value_sd')
+
+mdata_merge <- merge(mdata_means,mdata_sd,by=c('activity_code','activity_name','variable'))
