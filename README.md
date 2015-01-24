@@ -17,6 +17,7 @@ Appropiate error messages will be shown during the execution of the program indi
 The output of the run_analysis.R program is a data frame with the columns listed below:
 
 * activity_code: activity code under analysis
+* subject: subject under analysis
 * variable: variable name under analysis
 * value_avg: mean for the variable under analysis
 * value_sd: standard deviation for the variable under analysis
